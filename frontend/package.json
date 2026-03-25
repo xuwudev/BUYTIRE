@@ -1,6 +1,7 @@
 {
   "name": "tire-shop-frontend",
   "version": "1.0.0",
+  "homepage": "https://xuwudev.github.io/BUYTIRE",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
