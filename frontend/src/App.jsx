@@ -74,13 +74,18 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
-  // Отримуємо базовий URL з package.json homepages
-  const basename = process.env.PUBLIC_URL;
+  const basename = import.meta.env.BASE_URL || "/";
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router basename={basename}>
+      <Router
+        basename={basename}
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />

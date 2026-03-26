@@ -7,7 +7,6 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "init-db": "node scripts/init-db.js",
-    "test-db": "node scripts/test-db.js",
     "seed": "node scripts/seed-db.js"
   },
   "dependencies": {
@@ -17,7 +16,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.3",
     "multer": "^1.4.5-lts.1",
-    "pg": "^8.11.0"
+    "pg": "^8.11.0",
+    "postgres": "^3.4.8"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
