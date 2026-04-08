@@ -7,12 +7,19 @@ const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/products");
 const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/orders");
+const compression = require("compression");
 
 const app = express();
 
 // Простий CORS для локальної розробки
 app.use(cors());
 app.use(express.json());
+app.use(
+  compression({
+    level: 6, // рівень стиснення (1-9)
+    threshold: 1024, // стискати відповіді більші за 1KB
+  }),
+);
 
 // Маршрути
 app.use("/api/auth", authRoutes);
