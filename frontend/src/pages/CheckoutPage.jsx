@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Container,
   Paper,
@@ -96,8 +96,12 @@ const CheckoutPage = () => {
     }
   };
 
-  const shippingCost = total > 5000 ? 0 : 150;
-  const finalTotal = total + shippingCost;
+  const shippingCost = useMemo(() => (total > 5000 ? 0 : 150), [total]);
+  const finalTotal = useMemo(() => total + shippingCost, [total, shippingCost]);
+  const itemCount = useMemo(
+    () => items.reduce((s, i) => s + i.quantity, 0),
+    [items],
+  );
 
   if (items.length === 0 && !orderSuccess) {
     navigate("/cart");
@@ -271,7 +275,7 @@ const CheckoutPage = () => {
                   }}
                 >
                   <Typography variant="body2">
-                    Товарів: {items.reduce((s, i) => s + i.quantity, 0)} шт
+                    Товарів: {itemCount} шт
                   </Typography>
                   <Typography variant="body2">
                     {total.toLocaleString()} грн

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   AppBar,
   Toolbar,
@@ -45,7 +45,10 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const cartItemCount = useMemo(
+    () => items.reduce((sum, item) => sum + item.quantity, 0),
+    [items],
+  );
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -61,13 +64,16 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const menuItems = [
-    { text: "Головна", icon: <Home />, path: "/" },
-    { text: "Каталог", icon: <Category />, path: "/catalog" },
-    ...(isAuthenticated
-      ? [{ text: "Мої замовлення", icon: <History />, path: "/profile" }]
-      : []),
-  ];
+  const menuItems = useMemo(
+    () => [
+      { text: "Головна", icon: <Home />, path: "/" },
+      { text: "Каталог", icon: <Category />, path: "/catalog" },
+      ...(isAuthenticated
+        ? [{ text: "Мої замовлення", icon: <History />, path: "/profile" }]
+        : []),
+    ],
+    [isAuthenticated],
+  );
 
   const mobileMenu = (
     <Drawer

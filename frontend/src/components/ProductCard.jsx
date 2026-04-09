@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cartSlice";
 
-const ProductCard = ({ product }) => {
+const ProductCard = React.memo(({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -110,6 +110,6 @@ const ProductCard = ({ product }) => {
       </CardActions>
     </Card>
   );
-};
+});
 
 export default ProductCard;

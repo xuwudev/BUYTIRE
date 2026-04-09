@@ -15,6 +15,27 @@ import ProductCard from "../components/ProductCard";
 import Loader from "../components/Loader";
 import { getPopularProducts } from "../services/api";
 
+const CATEGORIES = [
+  {
+    title: "Літні шини",
+    image: "/images/summer-tires.jpg",
+    path: "/catalog?season=summer&category=tire",
+    color: "#ff9800",
+  },
+  {
+    title: "Зимові шини",
+    image: "/images/winter-tires.jpg",
+    path: "/catalog?season=winter&category=tire",
+    color: "#2196f3",
+  },
+  {
+    title: "Легкосплавні диски",
+    image: "/images/alloy-wheels.jpg",
+    path: "/catalog?category=wheel",
+    color: "#9c27b0",
+  },
+];
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [popularProducts, setPopularProducts] = useState([]);
@@ -35,26 +56,7 @@ const HomePage = () => {
     }
   };
 
-  const categories = [
-    {
-      title: "Літні шини",
-      image: "/images/summer-tires.jpg",
-      path: "/catalog?season=summer&category=tire",
-      color: "#ff9800",
-    },
-    {
-      title: "Зимові шини",
-      image: "/images/winter-tires.jpg",
-      path: "/catalog?season=winter&category=tire",
-      color: "#2196f3",
-    },
-    {
-      title: "Легкосплавні диски",
-      image: "/images/alloy-wheels.jpg",
-      path: "/catalog?category=wheel",
-      color: "#9c27b0",
-    },
-  ];
+
 
   return (
     <>
@@ -124,7 +126,7 @@ const HomePage = () => {
           Категорії товарів
         </Typography>
         <Grid container spacing={3} sx={{ mb: 6 }}>
-          {categories.map((category) => (
+          {CATEGORIES.map((category) => (
             <Grid item xs={12} md={4} key={category.title}>
               <Card
                 sx={{

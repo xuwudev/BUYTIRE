@@ -11,15 +11,16 @@ const pool = new Pool({
 // Перевірка підключення
 pool.connect((err, client, release) => {
   if (err) {
-    console.error("❌ Помилка підключення до бази даних:", err.message);
-    console.log("\n📝 Переконайтеся що:");
+    console.error("Помилка підключення до бази даних:", err.message);
+    console.log("\nПереконайтеся що:");
     console.log("   1. PostgreSQL запущений");
     console.log("   2. База даних 'tire_shop' існує");
     console.log("   3. Пароль правильний");
   } else {
-    console.log("✅ Підключено до PostgreSQL (локальна база)");
+    console.log("Підключено до PostgreSQL (локальна база)");
     release();
   }
 });
 
 module.exports = pool;
+1;

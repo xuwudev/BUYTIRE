@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Container,
   Grid,
@@ -39,8 +39,9 @@ const CartPage = () => {
     }
   };
 
-  const shippingCost = total > 5000 ? 0 : 150;
-  const finalTotal = total + shippingCost;
+  const shippingCost = useMemo(() => (total > 5000 ? 0 : 150), [total]);
+  const finalTotal = useMemo(() => total + shippingCost, [total, shippingCost]);
+  const itemCount = useMemo(() => items.reduce((s, i) => s + i.quantity, 0), [items]);
 
   if (items.length === 0) {
     return (
@@ -184,7 +185,7 @@ const CartPage = () => {
               sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
             >
               <Typography variant="body2">
-                Товари ({items.reduce((s, i) => s + i.quantity, 0)} шт)
+                Товари ({itemCount} шт)
               </Typography>
               <Typography variant="body2">
                 {total.toLocaleString()} грн

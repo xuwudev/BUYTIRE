@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Container,
   Grid,
@@ -131,7 +131,7 @@ const CatalogPage = () => {
     setPage(1);
   };
 
-  const getActiveFiltersCount = () => {
+  const activeFiltersCount = useMemo(() => {
     let count = 0;
     if (filters.category) count++;
     if (filters.brand) count++;
@@ -140,14 +140,16 @@ const CatalogPage = () => {
     if (filters.minPrice > 0 || filters.maxPrice < 10000) count++;
     if (filters.search) count++;
     return count;
-  };
+  }, [filters]);
 
-  const paginatedProducts = products.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage,
+  const paginatedProducts = useMemo(() => {
+    return products.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  }, [products, page, itemsPerPage]);
+
+  const diameterOptions = useMemo(
+    () => [13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+    [],
   );
-
-  const diameterOptions = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -196,9 +198,7 @@ const CatalogPage = () => {
                   startIcon={<FilterList />}
                   onClick={() => setMobileOpen(true)}
                 >
-                  Фільтри{" "}
-                  {getActiveFiltersCount() > 0 &&
-                    `(${getActiveFiltersCount()})`}
+                  Фільтри {activeFiltersCount > 0 && `(${activeFiltersCount})`}
                 </Button>
               )}
 
@@ -224,7 +224,7 @@ const CatalogPage = () => {
           </Box>
 
           {/* Активні фільтри */}
-          {getActiveFiltersCount() > 0 && (
+          {activeFiltersCount > 0 && (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
               {filters.category && (
                 <Chip

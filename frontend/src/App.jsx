@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,17 +6,19 @@ import {
   Navigate,
 } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Box, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import CatalogPage from "./pages/CatalogPage";
-import ProductPage from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import ProfilePage from "./pages/ProfilePage";
-import LoginPage from "./pages/LoginPage";
+
+// Lazy loading components
+const HomePage = lazy(() => import("./pages/HomePage"));
+const CatalogPage = lazy(() => import("./pages/CatalogPage"));
+const ProductPage = lazy(() => import("./pages/ProductPage"));
+const CartPage = lazy(() => import("./pages/CartPage"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
 
 const theme = createTheme({
   palette: {
@@ -73,6 +75,19 @@ const PrivateRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
+const LoadingFallback = () => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "80vh",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+
 function App() {
   const basename = import.meta.env.BASE_URL || "/";
 
@@ -87,29 +102,31 @@ function App() {
         }}
       >
         <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/catalog" element={<CatalogPage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/checkout"
-            element={
-              <PrivateRoute>
-                <CheckoutPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/catalog" element={<CatalogPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/checkout"
+              element={
+                <PrivateRoute>
+                  <CheckoutPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <ProfilePage />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
       </Router>
     </ThemeProvider>
   );

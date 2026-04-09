@@ -12,7 +12,7 @@ import {
   Divider,
 } from "@mui/material";
 
-const FilterSidebar = ({
+const FilterSidebar = React.memo(({
   filters,
   brands,
   diameterOptions,
@@ -140,6 +140,6 @@ const FilterSidebar = ({
       </Button>
     </Box>
   );
-};
+});
 
 export default FilterSidebar;

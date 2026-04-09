@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Container,
   Grid,
@@ -89,6 +89,15 @@ const ProductPage = () => {
     return seasons[season] || season;
   };
 
+  const images = useMemo(
+    () => product?.images || ["/images/placeholder.jpg"],
+    [product],
+  );
+  const specifications = useMemo(
+    () => product?.specifications || {},
+    [product],
+  );
+
   if (loading) return <Loader />;
   if (!product)
     return (
@@ -103,9 +112,6 @@ const ProductPage = () => {
         </Button>
       </Container>
     );
-
-  const images = product.images || ["/images/placeholder.jpg"];
-  const specifications = product.specifications || {};
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

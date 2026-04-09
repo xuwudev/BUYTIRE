@@ -20,6 +20,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
 import { getUserOrders, getOrderDetails, cancelOrder } from "../services/api";
 
+const getStatusColor = (status) => {
+  switch (status) {
+    case "pending":
+      return "warning";
+    case "processing":
+      return "info";
+    case "shipped":
+      return "primary";
+    case "delivered":
+      return "success";
+    case "cancelled":
+      return "error";
+    default:
+      return "default";
+  }
+};
+
+const getStatusLabel = (status) => {
+  switch (status) {
+    case "pending":
+      return "Очікує обробки";
+    case "processing":
+      return "Обробляється";
+    case "shipped":
+      return "Відправлено";
+    case "delivered":
+      return "Доставлено";
+    case "cancelled":
+      return "Скасовано";
+    default:
+      return status;
+  }
+};
+
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -28,7 +62,6 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [cancelSuccess, setCancelSuccess] = useState("");
-
   useEffect(() => {
     loadOrders();
   }, []);
@@ -66,40 +99,6 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Error cancelling order:", error);
       }
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "pending":
-        return "warning";
-      case "processing":
-        return "info";
-      case "shipped":
-        return "primary";
-      case "delivered":
-        return "success";
-      case "cancelled":
-        return "error";
-      default:
-        return "default";
-    }
-  };
-
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case "pending":
-        return "Очікує обробки";
-      case "processing":
-        return "Обробляється";
-      case "shipped":
-        return "Відправлено";
-      case "delivered":
-        return "Доставлено";
-      case "cancelled":
-        return "Скасовано";
-      default:
-        return status;
     }
   };
 
